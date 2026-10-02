@@ -12,34 +12,43 @@ Gunakan akun administrator berikut untuk masuk ke dashboard:
 
 ---
 
-## 📦 File Installer Windows (.exe) Siap Pakai
+## 📦 Instalasi & Pembuatan Berkas Installer (.exe)
 
-Aplikasi telah berhasil di-compile menjadi file installer Windows profesional:
-* **File Installer Resmi (v1.0.1)**: [**`dist/Invoice_Master_Setup_v1.0.1.exe`**](file:///d:/Project%20Mandiri/Desktop%20App/invoice-generator-v2/dist/Invoice_Master_Setup_v1.0.1.exe) (Ukuran: ~92.2 MB)
-* **Portable / Unpacked Direct Run**: [**`dist/win-unpacked/Invoice Master.exe`**](file:///d:/Project%20Mandiri/Desktop%20App/invoice-generator-v2/dist/win-unpacked/Invoice%20Master.exe)
-* **Dokumentasi Teknis Lengkap**: [**`TECHNICAL_DOCUMENTATION.md`**](file:///d:/Project%20Mandiri/Desktop%20App/invoice-generator-v2/TECHNICAL_DOCUMENTATION.md)
+> ℹ️ **Catatan Repositori Git**:
+> Folder `/node_modules` dan `/dist` **tidak diikutsertakan ke dalam repositori GitHub** (dikecualikan via `.gitignore`) sesuai standar repositori modern agar ukuran repository tetap ringan dan bersih.
 
-> Cukup double-click **`Invoice_Master_Setup_v1.0.1.exe`**, wizard instalasi Windows akan muncul dan otomatis memasang **Invoice Master** dengan icon resmi di Desktop dan Start Menu Anda.
+Jika Anda baru saja melakukan `git clone https://github.com/quraisin/invoice-generator-desktop-app.git`, Anda dapat membuat kembali folder `/node_modules`, folder `/dist`, dan file installer `Invoice_Master_Setup_v1.0.1.exe` hanya dengan **1 PERINTAH**:
+
+### ⚡ 1 Perintah untuk Generate Ulang Semua (/node_modules, /dist, & Installer EXE):
+
+Jalankan perintah ini di terminal / PowerShell:
+```bash
+npm run build:all
+```
+*(Atau cukup klik dua kali berkas skrip [**`Build_Installer.bat`**](file:///d:/Project%20Mandiri/Desktop%20App/invoice-generator-v2/Build_Installer.bat))*
+
+**Proses yang berjalan secara otomatis:**
+1. Mengunduh dan memasang semua dependensi ke folder `/node_modules`.
+2. Mengompilasi aplikasi, aset, dan database lokal.
+3. Menghasilkan folder `/dist` beserta file installer:
+   * **Installer Resmi**: `dist/Invoice_Master_Setup_v1.0.1.exe` (~92.2 MB)
+   * **Unpacked App**: `dist/win-unpacked/Invoice Master.exe`
 
 ---
 
 ## 🚀 Cara Menjalankan Aplikasi
 
-### Opsi 1: Menggunakan Installer Resmi (Rekomendasi)
-1. Buka folder [**`dist/`**](file:///d:/Project%20Mandiri/Desktop%20App/invoice-generator-v2/dist).
-2. Double-click [**`Invoice_Master_Setup_v1.0.1.exe`**](file:///d:/Project%20Mandiri/Desktop%20App/invoice-generator-v2/dist/Invoice_Master_Setup_v1.0.1.exe) untuk menginstall.
-3. Buka **Invoice Master** langsung dari shortcut Desktop atau Start Menu.
+### Opsi 1: Menggunakan Installer Hasil Build
+1. Jalankan perintah `npm run build:all` (atau klik dua kali `Build_Installer.bat`).
+2. Masuk ke folder `dist/` dan jalankan `Invoice_Master_Setup_v1.0.1.exe` untuk menginstal aplikasi dengan ikon resmi di Desktop & Start Menu.
 
-### Opsi 2: Dari Folder Project (Mode Pengembangan)
-* Cukup double-click file [**`Jalankan_Aplikasi.bat`**](file:///d:/Project%20Mandiri/Desktop%20App/invoice-generator-v2/Jalankan_Aplikasi.bat).
-* Atau jalankan lewat terminal:
-  ```bash
-  npm start
-  ```
-* Untuk meng-compile ulang installer jika ada perubahan kode:
-  ```bash
-  npm run build
-  ```
+### Opsi 2: Mode Pengembangan (Live Dev)
+Bagi Anda yang ingin langsung menjalankan aplikasi tanpa mengompilasi installer:
+```bash
+npm install
+npm start
+```
+*(Atau cukup klik dua kali [**`Jalankan_Aplikasi.bat`**](file:///d:/Project%20Mandiri/Desktop%20App/invoice-generator-v2/Jalankan_Aplikasi.bat))*
 
 ---
 

@@ -315,6 +315,9 @@ CREATE INDEX IF NOT EXISTS idx_clients_company ON clients(company);
 
 ## 6. PANDUAN INSTALASI & PENGGUNAAN
 
+> ℹ️ **Catatan Repositori Git**:
+> Folder `/node_modules` dan `/dist` **tidak diikutsertakan ke dalam repositori GitHub** (dikecualikan via `.gitignore`) sesuai standar *best practice* repositori kode. Siapapun yang melakukan clone dari `https://github.com/quraisin/invoice-generator-desktop-app.git` dapat menghasilkan ulang kedua folder tersebut dan installer EXE-nya menggunakan 1 perintah terpadu di bawah ini.
+
 ### Persyaratan Sistem
 - **Sistem Operasi**: Windows 10 atau Windows 11 (64-bit Architecture).
 - **Prosesor**: Intel Core / AMD Ryzen (Dual-Core atau lebih tinggi).
@@ -323,9 +326,26 @@ CREATE INDEX IF NOT EXISTS idx_clients_company ON clients(company);
 
 ---
 
-### Opsi 1: Instalasi Menggunakan Installer Resmi (Rekomendasi Pengguna Akhir)
+### ⚡ 1 Perintah untuk Generate Ulang `/node_modules`, `/dist`, & Installer EXE
 
-1. Unduh atau salin berkas installer:
+Jika Anda baru saja melakukan clone repositori atau ingin memperbarui seluruh dependensi dan installer sekaligus, cukup jalankan **1 perintah** berikut:
+
+```bash
+npm run build:all
+```
+*(Atau cukup klik dua kali berkas skrip [**`Build_Installer.bat`**](file:///d:/Project%20Mandiri/Desktop%20App/invoice-generator-v2/Build_Installer.bat))*
+
+Perintah ini akan secara otomatis:
+1. Menjalankan `npm install` untuk mengunduh seluruh dependensi ke `/node_modules`.
+2. Menjalankan `npm run build` (`electron-builder --win`).
+3. Mengompilasi kode dan aset ke folder `/dist`.
+4. Menghasilkan installer Windows resmi: `dist/Invoice_Master_Setup_v1.0.1.exe`.
+
+---
+
+### Opsi 1: Instalasi Menggunakan Installer Resmi (Hasil Build)
+
+1. Jalankan perintah `npm run build:all` atau gunakan berkas yang sudah dibuild di:
    [**`dist/Invoice_Master_Setup_v1.0.1.exe`**](file:///d:/Project%20Mandiri/Desktop%20App/invoice-generator-v2/dist/Invoice_Master_Setup_v1.0.1.exe)
 2. Klik dua kali (*double click*) pada berkas **`Invoice_Master_Setup_v1.0.1.exe`**.
 3. Wizard instalasi Windows (NSIS) akan terbuka:
@@ -341,21 +361,16 @@ CREATE INDEX IF NOT EXISTS idx_clients_company ON clients(company);
 
 ### Opsi 2: Menjalankan dari Kode Sumber (Development Mode)
 
-Bagi pengembang yang ingin memodifikasi atau mengembangkan fitur aplikasi:
+Bagi pengembang yang ingin memodifikasi atau mengembangkan fitur aplikasi secara live:
 
 1. **Prasyarat**:
-   - Pastikan **Node.js** (versi 20.x atau 22.x LTS) dan **npm** sudah terpasang di komputer Anda.
+   - Pastikan **Node.js** (versi 20.x atau 22.x LTS) dan **npm** sudah terpasang.
    - Buka PowerShell atau Command Prompt.
 
-2. **Instalasi Dependencies**:
-   Arahkan terminal ke root project dan jalankan:
+2. **Instalasi Dependencies & Menjalankan Live**:
    ```bash
    cd "d:\Project Mandiri\Desktop App\invoice-generator-v2"
    npm install
-   ```
-
-3. **Menjalankan Aplikasi (Mode Live)**:
-   ```bash
    npm start
    ```
    Atau cukup klik dua kali pada berkas script batch:
@@ -376,6 +391,10 @@ Untuk mengompilasi ulang seluruh kode sumber menjadi berkas installer `.exe` bar
 2. Jalankan perintah build:
    ```bash
    npm run build
+   ```
+   *Atau jika ingin memastikan dependensi terinstal dahulu:*
+   ```bash
+   npm run build:all
    ```
 
 3. `electron-builder` akan otomatis memproses:
