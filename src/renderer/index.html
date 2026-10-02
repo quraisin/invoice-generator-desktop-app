@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Generator Invoice - Desktop Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/print.css" media="print">
+</head>
+<body>
+
+  <!-- ======================== LOGIN VIEW ======================== -->
+  <div id="loginView" class="login-container">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="brand-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h2>INVOICE MASTER</h2>
+          <span class="badge-desktop">Desktop Pro v1.0.1</span>
+        </div>
+      </div>
+
+      <div class="login-header">
+        <h3>Selamat Datang</h3>
+        <p>Silakan masuk untuk mengelola faktur & data keuangan Anda</p>
+      </div>
+
+      <div id="loginAlert" class="alert alert-danger" style="display: none;"></div>
+
+      <form id="loginForm" autocomplete="off">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <div class="input-icon-wrapper">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <input type="text" id="username" class="form-control" placeholder="Masukkan username" required autofocus value="">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-icon-wrapper">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <input type="password" id="password" class="form-control" placeholder="Masukkan password" required value="">
+            <button type="button" id="togglePasswordBtn" class="toggle-password-btn" title="Tampilkan Password">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="login-footer-row">
+          <label class="remember-checkbox">
+            <input type="checkbox" id="rememberMe" checked>
+            <span>Ingat sesi ini</span>
+          </label>
+          <span class="db-indicator">
+            <span class="dot-online"></span> SQLite Local
+          </span>
+        </div>
+
+        <button type="submit" id="loginSubmitBtn" class="btn btn-primary btn-block">
+          <span>Masuk ke Dashboard</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </form>
+
+      <div class="login-hint">
+        <p>Aplikasi Offline Mandiri &bull; Data tersimpan aman di SQLite lokal Anda.</p>
+        <div class="login-copyright">&copy; 2026 <strong>QuraisEnterprise</strong> &bull; Licensed Software</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== MAIN APP VIEW ======================== -->
+  <div id="mainAppView" class="app-layout" style="display: none;">
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon-sm">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <h3>INVOICE MASTER</h3>
+          <span>DESKTOP SUITE v1.0.1</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <div class="menu-label">MENU UTAMA</div>
+        <a href="#dashboard" class="menu-item active" data-nav="dashboard">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="#invoices" class="menu-item" data-nav="invoices">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span>Daftar Invoice</span>
+        </a>
+
+        <a href="#create-invoice" class="menu-item" data-nav="create-invoice">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="16"></line>
+            <line x1="8" y1="12" x2="16" y2="12"></line>
+          </svg>
+          <span>Buat Invoice Baru</span>
+        </a>
+
+        <a href="#clients" class="menu-item" data-nav="clients">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Data Pelanggan</span>
+        </a>
+
+        <div class="menu-label">KONFIGURASI</div>
+        <a href="#settings" class="menu-item" data-nav="settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Pengaturan Bisnis</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-user">
+        <div class="user-avatar">SA</div>
+        <div class="user-info">
+          <span class="user-name" id="userDisplayName">Super Admin</span>
+          <span class="user-role">Administrator</span>
+        </div>
+        <button id="logoutBtn" class="logout-btn" title="Keluar / Logout">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="sidebar-copyright">
+        <div class="sidebar-copyright-text">&copy; 2026 <strong>QuraisEnterprise</strong></div>
+        <div class="sidebar-copyright-sub">Desktop Suite v1.0.1</div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+      
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-title">
+          <h2 id="pageTitle">Ringkasan Dashboard</h2>
+          <span id="pageSubtitle">Pantau performa penjualan dan status faktur real-time</span>
+        </div>
+        <div class="topbar-actions">
+          <button id="topbarExcelBtn" class="btn btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="8" y1="13" x2="16" y2="13"></line>
+              <line x1="8" y1="17" x2="16" y2="17"></line>
+            </svg>
+            <span>Export Excel</span>
+          </button>
+          <button id="topbarCreateInvoiceBtn" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>+ Buat Invoice</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- PAGE: DASHBOARD -->
+      <section id="pageDashboard" class="page-section active">
+        <!-- STATS CARDS -->
+        <div class="stats-grid">
+          <div class="stat-card card-revenue">
+            <div class="stat-card-header">
+              <span class="stat-label">Total Pendapatan (Lunas) (Rp)</span>
+              <div class="stat-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value-container">
+              <h3 class="stat-value text-success" id="statTotalRevenue" title="0,00">0,00</h3>
+            </div>
+            <span class="stat-meta text-success">
+              <span id="statPaidCount">0</span> invoice telah lunas
+            </span>
+          </div>
+
+          <div class="stat-card card-pending">
+            <div class="stat-card-header">
+              <span class="stat-label">Tagihan Belum Lunas (Rp)</span>
+              <div class="stat-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value-container">
+              <h3 class="stat-value text-warning" id="statPendingAmount" title="0,00">0,00</h3>
+            </div>
+            <span class="stat-meta text-warning">
+              <span id="statUnpaidCount">0</span> invoice menunggu pembayaran
+            </span>
+          </div>
+
+          <div class="stat-card card-overdue">
+            <div class="stat-card-header">
+              <span class="stat-label">Faktur Jatuh Tempo</span>
+              <div class="stat-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value-container">
+              <h3 class="stat-value text-danger" id="statOverdueCount" title="0">0</h3>
+            </div>
+            <span class="stat-meta text-danger">Memerlukan tindak lanjut segera</span>
+          </div>
+
+          <div class="stat-card card-clients">
+            <div class="stat-card-header">
+              <span class="stat-label">Total Pelanggan Terdaftar</span>
+              <div class="stat-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value-container">
+              <h3 class="stat-value" id="statTotalClients" title="0">0</h3>
+            </div>
+            <span class="stat-meta text-info">
+              <span id="statTotalInvoices">0</span> total faktur dibuat
+            </span>
+          </div>
+        </div>
+
+        <!-- RECENT INVOICES SECTION -->
+        <div class="content-card">
+          <div class="card-header-row">
+            <div>
+              <h3>Faktur Terbaru</h3>
+              <p>Daftar invoice yang baru saja dibuat atau diperbarui</p>
+            </div>
+            <button class="btn btn-link" data-nav="invoices">Lihat Semua Invoice &rarr;</button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table" id="dashboardRecentTable">
+              <thead>
+                <tr>
+                  <th>No. Faktur</th>
+                  <th>Klien / Perusahaan</th>
+                  <th>Tanggal</th>
+                  <th>Jatuh Tempo</th>
+                  <th class="text-right">Total (Rp)</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="dashboardRecentTbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: INVOICES LIST -->
+      <section id="pageInvoices" class="page-section">
+        <div class="content-card">
+          <!-- Filters bar -->
+          <div class="filter-controls-row">
+            <div class="search-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="invoiceSearchInput" placeholder="Cari No. Faktur, Nama Klien, atau Perusahaan...">
+            </div>
+
+            <div class="filter-tabs" id="statusFilterTabs">
+              <button class="filter-tab active" data-status="all">Semua</button>
+              <button class="filter-tab" data-status="unpaid">Belum Lunas</button>
+              <button class="filter-tab" data-status="paid">Lunas</button>
+              <button class="filter-tab" data-status="overdue">Jatuh Tempo</button>
+              <button class="filter-tab" data-status="cancelled">Dibatalkan</button>
+            </div>
+
+            <div class="export-actions">
+              <button id="exportExcelBtn" class="btn btn-success">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Export Excel (.xlsx)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Date Filters -->
+          <div class="date-filter-row">
+            <div class="date-inputs">
+              <span>Dari:</span>
+              <div class="date-picker-wrapper sm">
+                <input type="text" id="filterStartDate" class="form-control-sm date-dmy-input" placeholder="TGL/BLN/THN" maxlength="10" autocomplete="off">
+                <input type="date" id="filterStartDate_picker" class="native-date-hidden" tabindex="-1">
+                <button type="button" class="btn-picker-trigger" tabindex="-1" title="Pilih Tanggal">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </button>
+              </div>
+              <span>Sampai:</span>
+              <div class="date-picker-wrapper sm">
+                <input type="text" id="filterEndDate" class="form-control-sm date-dmy-input" placeholder="TGL/BLN/THN" maxlength="10" autocomplete="off">
+                <input type="date" id="filterEndDate_picker" class="native-date-hidden" tabindex="-1">
+                <button type="button" class="btn-picker-trigger" tabindex="-1" title="Pilih Tanggal">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </button>
+              </div>
+              <button id="applyDateFilterBtn" class="btn btn-secondary btn-sm">Terapkan</button>
+              <button id="resetDateFilterBtn" class="btn btn-link btn-sm">Reset</button>
+            </div>
+          </div>
+
+          <!-- Invoices Table -->
+          <div class="table-responsive">
+            <table class="data-table" id="invoicesTable">
+              <thead>
+                <tr>
+                  <th>No. Faktur</th>
+                  <th>Klien / Perusahaan</th>
+                  <th>Tanggal Terbit</th>
+                  <th>Jatuh Tempo</th>
+                  <th class="text-right">Total Tagihan (Rp)</th>
+                  <th>Status</th>
+                  <th class="text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="invoicesTbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="invoicesEmptyState" class="empty-state" style="display: none;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+            <h4>Tidak Ada Data Invoice</h4>
+            <p>Tidak ditemukan data faktur yang sesuai dengan filter pencarian.</p>
+          </div>
+
+          <!-- Pagination Bar -->
+          <div class="pagination-bar" id="invoicesPaginationBar" style="display: none;">
+            <div class="pagination-info" id="invoicesPaginationInfo">
+              Menampilkan 0 dari 0 faktur
+            </div>
+            <div class="pagination-controls">
+              <button type="button" class="btn-pagination" id="invPrevPageBtn" title="Halaman Sebelumnya">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                <span>Sebelumnya</span>
+              </button>
+              <div class="pagination-pages" id="invPaginationPages"></div>
+              <button type="button" class="btn-pagination" id="invNextPageBtn" title="Halaman Selanjutnya">
+                <span>Selanjutnya</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: CREATE / EDIT INVOICE -->
+      <section id="pageCreateInvoice" class="page-section">
+        <form id="invoiceForm">
+          <input type="hidden" id="invFormId" value="">
+          
+          <div class="form-grid-layout">
+            
+            <!-- LEFT COLUMN: INVOICE INFO & CLIENT -->
+            <div class="content-card">
+              <h3 class="card-section-title">Informasi Faktur</h3>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="invNumber">Nomor Faktur <span class="text-danger">*</span></label>
+                  <input type="text" id="invNumber" class="form-control" required placeholder="INV-2026-0001">
+                </div>
+                <div class="form-group">
+                  <label for="invStatus">Status Pembayaran</label>
+                  <select id="invStatus" class="form-control">
+                    <option value="unpaid">Belum Lunas</option>
+                    <option value="paid">Lunas</option>
+                    <option value="overdue">Jatuh Tempo</option>
+                    <option value="cancelled">Dibatalkan</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="invIssueDate">Tanggal Terbit <span class="text-danger">*</span></label>
+                  <div class="date-picker-wrapper">
+                    <input type="text" id="invIssueDate" class="form-control date-dmy-input" placeholder="TGL/BLN/THN (Contoh: 02/10/2026)" maxlength="10" required autocomplete="off">
+                    <input type="date" id="invIssueDate_picker" class="native-date-hidden" tabindex="-1">
+                    <button type="button" class="btn-picker-trigger" tabindex="-1" title="Pilih Tanggal">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="invDueDate">Tanggal Jatuh Tempo <span class="text-danger">*</span></label>
+                  <div class="date-picker-wrapper">
+                    <input type="text" id="invDueDate" class="form-control date-dmy-input" placeholder="TGL/BLN/THN (Contoh: 16/10/2026)" maxlength="10" required autocomplete="off">
+                    <input type="date" id="invDueDate_picker" class="native-date-hidden" tabindex="-1">
+                    <button type="button" class="btn-picker-trigger" tabindex="-1" title="Pilih Tanggal">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="divider">
+
+              <div class="client-header-row">
+                <h3 class="card-section-title">Ditujukan Kepada (Pelanggan)</h3>
+                <button type="button" id="quickAddClientBtn" class="btn btn-secondary btn-sm">+ Tambah Pelanggan Baru</button>
+              </div>
+
+              <div class="form-group">
+                <label for="invClientId">Pilih Klien / Perusahaan <span class="text-danger">*</span></label>
+                <select id="invClientId" class="form-control" required>
+                  <option value="">-- Pilih Pelanggan --</option>
+                </select>
+              </div>
+
+              <div id="selectedClientPreview" class="client-preview-box" style="display: none;">
+                <div class="client-preview-name" id="cpName">Nama Klien</div>
+                <div class="client-preview-detail" id="cpCompany">Perusahaan</div>
+                <div class="client-preview-detail" id="cpContact">Email &bull; Telepon</div>
+                <div class="client-preview-detail" id="cpAddress">Alamat</div>
+              </div>
+            </div>
+
+            <!-- RIGHT COLUMN: NOTES & PAYMENT INSTRUCTIONS -->
+            <div class="content-card">
+              <h3 class="card-section-title">Catatan & Syarat Ketentuan</h3>
+
+              <div class="form-group">
+                <label for="invNotes">Catatan untuk Pelanggan</label>
+                <textarea id="invNotes" class="form-control" rows="3" placeholder="Contoh: Terima kasih atas kerja sama Anda..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="invPaymentTerms">Syarat & Metode Pembayaran</label>
+                <textarea id="invPaymentTerms" class="form-control" rows="4" placeholder="Instruksi transfer bank, batas pembayaran, dll..."></textarea>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- FULL-WIDTH CARD: LINE ITEMS & TOTALS -->
+          <div class="content-card mt-4">
+            <div class="card-header-row">
+              <div>
+                <h3 class="card-section-title">Daftar Barang / Layanan</h3>
+                <p>Tambahkan rincian item, kuantitas, dan tarif harga</p>
+              </div>
+              <button type="button" id="addItemRowBtn" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>+ Tambah Baris Item</span>
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="items-table">
+                <thead>
+                  <tr>
+                    <th style="width: 48%;">Deskripsi Barang / Layanan</th>
+                    <th style="width: 14%;">Qty</th>
+                    <th style="width: 20%;">Harga Satuan (Rp)</th>
+                    <th style="width: 22%;">Total (Rp)</th>
+                    <th style="width: 6%;"></th>
+                  </tr>
+                </thead>
+                <tbody id="invoiceItemsTbody">
+                  <!-- Dynamically populated rows -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- CALCULATION SUMMARY SECTION -->
+            <div class="calculation-summary-container">
+              <div class="summary-box">
+                <div class="summary-row">
+                  <span class="summary-label">Subtotal (Rp) :</span>
+                  <span class="summary-val" id="calcSubtotal">0,00</span>
+                </div>
+
+                <div class="summary-row align-center">
+                  <div class="summary-label-flex">
+                    <span>Pajak (PPN) (Rp) :</span>
+                    <input type="number" id="invTaxRate" class="tax-rate-input" value="11" min="0" max="100" step="0.5">%
+                  </div>
+                  <span class="summary-val" id="calcTaxAmount">0,00</span>
+                </div>
+
+                <div class="summary-row align-center">
+                  <div class="summary-label-flex">
+                    <span>Diskon (Rp) :</span>
+                    <select id="invDiscountType" class="discount-type-select">
+                      <option value="percentage">%</option>
+                      <option value="fixed">Nominal</option>
+                    </select>
+                    <input type="number" id="invDiscountValue" class="discount-val-input" value="0" min="0" step="any">
+                  </div>
+                  <span class="summary-val text-danger" id="calcDiscountAmount">0,00</span>
+                </div>
+
+                <div class="summary-row grand-total-row">
+                  <span class="grand-label">Total (Rp) :</span>
+                  <span class="grand-val" id="calcGrandTotal">0,00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- BOTTOM ACTION BUTTONS -->
+            <div class="form-actions-bar">
+              <button type="button" id="cancelInvoiceBtn" class="btn btn-secondary">Batal</button>
+              <div class="right-buttons">
+                <button type="button" id="saveAndPdfBtn" class="btn btn-outline-primary">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  <span>Simpan & Buat PDF</span>
+                </button>
+                <button type="submit" id="saveInvoiceBtn" class="btn btn-primary">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                    <polyline points="7 3 7 8 15 8"></polyline>
+                  </svg>
+                  <span>Simpan Invoice</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </section>
+
+      <!-- PAGE: CLIENTS -->
+      <section id="pageClients" class="page-section">
+        <div class="content-card">
+          <div class="card-header-row">
+            <div>
+              <h3>Database Pelanggan / Klien</h3>
+              <p>Kelola kontak pelanggan, alamat perusahaan, dan riwayat pesanan</p>
+            </div>
+            <button id="addClientBtn" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>+ Tambah Pelanggan</span>
+            </button>
+          </div>
+
+          <div class="filter-controls-row mt-3">
+            <div class="search-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="clientSearchInput" placeholder="Cari nama pelanggan, perusahaan, atau email...">
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table" id="clientsTable">
+              <thead>
+                <tr>
+                  <th>Nama Klien</th>
+                  <th>Perusahaan</th>
+                  <th>Kontak</th>
+                  <th>Alamat</th>
+                  <th>Total Invoice</th>
+                  <th class="text-right">Total Transaksi (Rp)</th>
+                  <th class="text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="clientsTbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: SETTINGS -->
+      <section id="pageSettings" class="page-section">
+        <div class="settings-grid">
+          
+          <!-- COMPANY PROFILE -->
+          <div class="content-card">
+            <h3 class="card-section-title">Profil Perusahaan / Bisnis Anda</h3>
+            <p class="section-subtitle">Data ini akan tampil pada bagian atas (Header) setiap faktur yang dicetak</p>
+
+            <form id="settingsForm">
+              
+              <!-- LOGO PERUSAHAAN UPLOADER -->
+              <div class="form-group logo-uploader-container">
+                <label class="form-label-bold">Logo Resmi Perusahaan</label>
+                <div class="logo-uploader-card">
+                  <div class="logo-preview-box" id="logoPreviewContainer">
+                    <img id="logoPreviewImg" src="" alt="Logo Perusahaan" style="display: none;">
+                    <div id="logoPlaceholder" class="logo-empty-state">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                      </svg>
+                      <span>Belum Ada Logo</span>
+                    </div>
+                  </div>
+
+                  <div class="logo-uploader-actions">
+                    <input type="file" id="logoFileInput" accept="image/png, image/jpeg, image/jpg, image/webp, image/svg+xml" style="display: none;">
+                    <input type="hidden" id="setCompanyLogo" value="">
+                    <div class="logo-buttons-row">
+                      <button type="button" id="uploadLogoBtn" class="btn btn-secondary btn-sm">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                          <polyline points="17 8 12 3 7 8"></polyline>
+                          <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <span>Pilih & Unggah Logo</span>
+                      </button>
+                      <button type="button" id="removeLogoBtn" class="btn btn-secondary btn-sm btn-remove-logo" style="display: none;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="3 6 5 6 21 6"></polyline>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                        <span>Hapus</span>
+                      </button>
+                    </div>
+                    <span class="logo-help-text">Format: PNG, JPG, WebP (Maks. 2 MB). Logo akan otomatis tampil pada kop atas faktur saat dicetak atau diunduh sebagai PDF.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="setCompanyName">Nama Perusahaan / Bisnis <span class="text-danger">*</span></label>
+                <input type="text" id="setCompanyName" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label for="setCompanyTagline">Slogan / Tagline Bisnis</label>
+                <input type="text" id="setCompanyTagline" class="form-control">
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="setCompanyEmail">Email Resmi</label>
+                  <input type="email" id="setCompanyEmail" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="setCompanyPhone">No. Telepon / WhatsApp</label>
+                  <input type="text" id="setCompanyPhone" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="setCompanyAddress">Alamat Lengkap Kantor</label>
+                <textarea id="setCompanyAddress" class="form-control" rows="2"></textarea>
+              </div>
+
+              <hr class="divider">
+
+              <h3 class="card-section-title">Informasi Pembayaran / Rekening Bank</h3>
+              <p class="section-subtitle">Informasi transfer yang akan dicantumkan di bagian instruksi pembayaran faktur</p>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="setBankName">Nama Bank</label>
+                  <input type="text" id="setBankName" class="form-control" placeholder="Contoh: BCA / Mandiri / BNI">
+                </div>
+                <div class="form-group">
+                  <label for="setBankAccountNumber">Nomor Rekening</label>
+                  <input type="text" id="setBankAccountNumber" class="form-control" placeholder="123-456-7890">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="setBankAccountHolder">Nama Pemilik Rekening (Atas Nama)</label>
+                <input type="text" id="setBankAccountHolder" class="form-control">
+              </div>
+
+              <hr class="divider">
+
+              <h3 class="card-section-title">Konfigurasi Standar Faktur</h3>
+              <p class="section-subtitle">Pengaturan awalan nomor faktur, mata uang, dan tarif pajak standar</p>
+
+              <div class="form-row-3 form-row-aligned">
+                <div class="form-group">
+                  <label for="setInvoicePrefix">Awalan Faktur (Prefix)</label>
+                  <input type="text" id="setInvoicePrefix" class="form-control" placeholder="INV">
+                </div>
+                <div class="form-group">
+                  <label for="setCurrencySymbol">Simbol Mata Uang</label>
+                  <input type="text" id="setCurrencySymbol" class="form-control" placeholder="Rp">
+                </div>
+                <div class="form-group">
+                  <label for="setDefaultTaxRate">Tarif PPN Standar (%)</label>
+                  <input type="number" id="setDefaultTaxRate" class="form-control" step="0.5">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="setDefaultPaymentTerms">Syarat Ketentuan Standar</label>
+                <textarea id="setDefaultPaymentTerms" class="form-control" rows="3"></textarea>
+              </div>
+
+              <div class="form-actions-bar">
+                <button type="submit" id="saveSettingsBtn" class="btn btn-primary">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                  </svg>
+                  <span>Simpan Pengaturan</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- RIGHT COLUMN: SYSTEM & STORAGE HUB -->
+          <div class="settings-sidebar-col">
+            
+            <!-- SYSTEM INFO CARD -->
+            <div class="content-card system-info-card">
+              <div class="card-header-styled">
+                <div class="card-title-group">
+                  <h3 class="card-section-title">Informasi Sistem Desktop</h3>
+                  <p class="section-subtitle">Spesifikasi & Status Lingkungan Kerja</p>
+                </div>
+                <span class="status-indicator-pill">
+                  <span class="dot-pulse"></span> Sistem Normal
+                </span>
+              </div>
+
+              <!-- System Tiles List -->
+              <div class="system-tiles-list">
+                
+                <!-- Tile 1: Platform -->
+                <div class="sys-tile">
+                  <div class="sys-tile-icon icon-blue">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                      <line x1="8" y1="21" x2="16" y2="21"></line>
+                      <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                  </div>
+                  <div class="sys-tile-content">
+                    <div class="sys-tile-label">PLATFORM APLIKASI</div>
+                    <div class="sys-tile-title">Windows Desktop Native (x64)</div>
+                    <div class="sys-tile-desc">Arsitektur 64-bit &bull; Standalone Offline</div>
+                  </div>
+                </div>
+
+                <!-- Tile 2: Database Engine -->
+                <div class="sys-tile">
+                  <div class="sys-tile-icon icon-emerald">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                      <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                      <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                    </svg>
+                  </div>
+                  <div class="sys-tile-content">
+                    <div class="sys-tile-label">BASIS DATABASE</div>
+                    <div class="sys-tile-title">SQLite 3 (Embedded Local)</div>
+                    <div class="sys-tile-desc">100% Offline &bull; Indexing B-Tree Berkecepatan Tinggi</div>
+                  </div>
+                </div>
+
+                <!-- Tile 3: Database Storage File -->
+                <div class="sys-tile">
+                  <div class="sys-tile-icon icon-cyan">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                  </div>
+                  <div class="sys-tile-content">
+                    <div class="sys-tile-header-flex">
+                      <div class="sys-tile-label">LOKASI PENYIMPANAN DATA</div>
+                      <button type="button" id="openDbFolderBtn" class="btn-micro-action" title="Buka folder database di File Explorer">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                          <polyline points="15 3 21 3 21 9"></polyline>
+                          <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                        <span>Buka Folder</span>
+                      </button>
+                    </div>
+                    <div class="sys-path-pill">
+                      <code>data/invoices.sqlite</code>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tile 4: Administrator Account -->
+                <div class="sys-tile">
+                  <div class="sys-tile-icon icon-amber">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                  </div>
+                  <div class="sys-tile-content">
+                    <div class="sys-tile-label">KREDENSIAL LOGIN</div>
+                    <div class="sys-account-row">
+                      <span class="sys-username-badge">superadmin</span>
+                      <span class="sys-account-sub">Tersimpan aman & terproteksi lokal</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tile 5: Output & Engine -->
+                <div class="sys-tile">
+                  <div class="sys-tile-icon icon-purple">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                      <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                      <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                  </div>
+                  <div class="sys-tile-content">
+                    <div class="sys-tile-label">FORMAT DOKUMEN & CETAK</div>
+                    <div class="sys-badge-group">
+                      <span class="sys-pill-badge pill-pdf">PDF Vektor A4</span>
+                      <span class="sys-pill-badge pill-excel">Excel (.xlsx)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tile: Developer & License -->
+                <div class="sys-tile">
+                  <div class="sys-tile-icon icon-emerald">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                  </div>
+                  <div class="sys-tile-content">
+                    <div class="sys-tile-label">PENGEMBANG & HAK CIPTA</div>
+                    <div class="sys-tile-title">QuraisEnterprise</div>
+                    <div class="sys-tile-desc">Hak Cipta &copy; 2026 QuraisEnterprise. Dilindungi Undang-Undang.</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Security Tip -->
+              <div class="sys-security-box">
+                <div class="sys-security-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                </div>
+                <div class="sys-security-text">
+                  <strong>Tips Keamanan Data:</strong> Seluruh database tersimpan di berkas <code>data/invoices.sqlite</code>. Anda dapat menyalin berkas ini kapan saja sebagai backup lengkap tanpa server pihak ketiga.
+                </div>
+              </div>
+            </div>
+
+            <!-- AUTO-BACKUP CARD -->
+            <div class="content-card auto-backup-card mt-4">
+              <div class="card-header-styled">
+                <div class="card-title-group">
+                  <h3 class="card-section-title">Pencadangan Otomatis</h3>
+                  <p class="section-subtitle">Backup mingguan langsung ke folder Downloads</p>
+                </div>
+                <span class="badge-desktop badge-weekly-active">Aktif (1x / Minggu)</span>
+              </div>
+
+              <div class="backup-meta-list">
+                <div class="backup-meta-item">
+                  <span class="meta-label">Folder Tujuan:</span>
+                  <span class="meta-val" id="backupTargetFolder">Folder Downloads Windows</span>
+                </div>
+                <div class="backup-meta-item">
+                  <span class="meta-label">Terakhir Dicadangkan:</span>
+                  <span class="meta-val text-success" id="backupLastDate">-</span>
+                </div>
+                <div class="backup-meta-item">
+                  <span class="meta-label">Nama Berkas Terakhir:</span>
+                  <span class="meta-val code-pill" id="backupLastFile">-</span>
+                </div>
+              </div>
+
+              <div class="backup-actions-grid">
+                <button type="button" id="openDownloadsBtn" class="btn btn-secondary btn-sm">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                  <span>Buka Folder</span>
+                </button>
+                <button type="button" id="manualBackupBtn" class="btn btn-primary btn-sm">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  <span>Cadangkan Sekarang</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ======================== MODALS ======================== -->
+
+  <!-- CLIENT MODAL -->
+  <div id="clientModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="clientModalTitle">Tambah Pelanggan Baru</h3>
+        <button type="button" class="modal-close-btn" id="closeClientModalBtn">&times;</button>
+      </div>
+      <form id="clientForm">
+        <input type="hidden" id="clientFormId" value="">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="cliName">Nama Lengkap / Kontak <span class="text-danger">*</span></label>
+            <input type="text" id="cliName" class="form-control" required placeholder="Contoh: Bapak Hendra Wijaya">
+          </div>
+          <div class="form-group">
+            <label for="cliCompany">Nama Perusahaan / Organisasi</label>
+            <input type="text" id="cliCompany" class="form-control" placeholder="Contoh: PT Cahaya Abadi">
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="cliEmail">Email</label>
+              <input type="email" id="cliEmail" class="form-control" placeholder="klien@perusahaan.com">
+            </div>
+            <div class="form-group">
+              <label for="cliPhone">Nomor Telepon / HP</label>
+              <input type="text" id="cliPhone" class="form-control" placeholder="0812-3456-7890">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cliAddress">Alamat Lengkap</label>
+            <textarea id="cliAddress" class="form-control" rows="3" placeholder="Alamat kantor / pengiriman"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelClientModalBtn">Batal</button>
+          <button type="submit" class="btn btn-primary" id="saveClientSubmitBtn">Simpan Pelanggan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- INVOICE PREVIEW / PRINT MODAL -->
+  <div id="invoicePreviewModal" class="modal-backdrop modal-xl" style="display: none;">
+    <div class="modal-dialog modal-dialog-xl">
+      <div class="modal-header">
+        <div class="preview-header-info">
+          <h3>Pratinjau Faktur Penjualan</h3>
+          <span id="previewInvNumberBadge" class="code-pill">INV-2026-0001</span>
+        </div>
+        <div class="preview-header-actions">
+          <button type="button" id="previewPrintBtn" class="btn btn-secondary btn-sm">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 6 2 18 2 18 9"></polyline>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            <span>Cetak Langsung</span>
+          </button>
+          <button type="button" id="previewSavePdfBtn" class="btn btn-primary btn-sm">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Download PDF</span>
+          </button>
+          <button type="button" class="modal-close-btn" id="closePreviewModalBtn">&times;</button>
+        </div>
+      </div>
+
+      <div class="modal-body preview-scroll-body">
+        <!-- RENDERED INVOICE PAPER -->
+        <div id="printableInvoiceContainer" class="invoice-paper">
+          <!-- Dynamically populated invoice HTML -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+</body>
+</html>

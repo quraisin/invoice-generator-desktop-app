@@ -1,0 +1,124 @@
+@page {
+  size: A4;
+  margin: 12mm 15mm;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  body, html {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #printableInvoiceContainer,
+  #printableInvoiceContainer * {
+    visibility: visible;
+  }
+
+  #printableInvoiceContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    font-size: 12pt;
+    line-height: 1.4;
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  .modal-backdrop, .sidebar, .topbar, .modal-header {
+    display: none !important;
+  }
+
+  .inv-paper-table th {
+    background-color: #312e81 !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .inv-paper-table {
+    table-layout: fixed !important;
+  }
+
+  .inv-paper-table th.col-price,
+  .inv-paper-table td.col-price {
+    white-space: nowrap !important;
+    text-align: right !important;
+  }
+
+  .inv-paper-totals {
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+  }
+
+  .inv-totals-box {
+    width: 53% !important;
+    box-sizing: border-box !important;
+  }
+
+  .inv-totals-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: baseline !important;
+  }
+
+  .inv-totals-row span {
+    white-space: nowrap !important;
+  }
+
+  .inv-payment-info-box {
+    width: 44% !important;
+    box-sizing: border-box !important;
+    background-color: #f1f5f9 !important;
+    border-left: 3px solid #4f46e5 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .inv-bill-box, .inv-dates-box {
+    background-color: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .inv-brand-block {
+    max-width: 65% !important;
+  }
+
+  .inv-brand-top {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .inv-paper-logo-wrap {
+    flex-shrink: 0 !important;
+  }
+
+  .inv-paper-logo {
+    max-height: 58px !important;
+    max-width: 150px !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+
+  .inv-company-name-group {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "name": "invoice-master",
+  "productName": "Invoice Master",
+  "version": "1.0.1",
+  "description": "Invoice Master - Aplikasi Desktop Manajemen & Generator Faktur Penjualan",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "keywords": [
+    "invoice",
+    "generator",
+    "electron",
+    "sqlite",
+    "desktop"
+  ],
+  "author": "QuraisEnterprise",
+  "license": "MIT",
+  "dependencies": {
+    "sql.js": "^1.12.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.quraisenterprise.invoicemaster",
+    "productName": "Invoice Master",
+    "copyright": "Copyright © 2026 QuraisEnterprise. All rights reserved.",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "build/icon.png"
+    ],
+    "extraResources": [
+      {
+        "from": "data/invoices.sqlite",
+        "to": "data/invoices.sqlite"
+      }
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "**/node_modules/sql.js/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png",
+      "legalTrademarks": "QuraisEnterprise"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Invoice Master",
+      "artifactName": "Invoice_Master_Setup_v1.0.1.${ext}"
+    }
+  }
+}
